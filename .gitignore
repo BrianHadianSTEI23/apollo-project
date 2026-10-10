@@ -1,0 +1,7 @@
+.vscode/
+_x/
+.Xil/
+*.log
+*.compile_summary
+.ipcache/
+*.link_summary

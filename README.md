@@ -8,6 +8,8 @@ cd ..
 docker run --gpus all \
   -v ~/.ssh:/home/vitis-ai-user/.ssh:ro \
   -v /home/hadynata/vs-code-data/C++/apollo-project:/home/vitis-ai-user/workspace/apollo-project \
+  -v /tools/Xilinx:/tools/Xilinx \
+  -v /home/hadynata/kria-vitis-platforms:/home/vitis-ai-user/workspace/kria-vitis-platforms \
   --name apollo_container \
   -it xilinx/vitis-ai-pytorch-gpu:3.5.0.001-77cb9e6ad /bin/bash
  // launch the docker image, only run once, later you just need to stop / start it based on your needs
