@@ -24,9 +24,8 @@ bootgen -image boot.bif -arch zynqmp -process_bitstream bin -w on
 echo "=== 5. Compiling Device Tree Overlay (.dtbo) ==="
 dtc -@ -I dts -O dtb -o snn_app.dtbo snn_app.dts
 
-# echo "=== 6. Cross-Compiling Host Executable for AArch64 ==="
-# aarch64-linux-gnu-g++ -O3 -std=c++17 main.cpp -o snn_host \
-#    -I$XILINX_XRT/include -L$XILINX_XRT/lib -lxrt_coreutil -pthread
+echo "=== 6. Cross-Compiling Host Executable for AArch64 ==="
+aarch64-linux-gnu-g++ -O3 -std=c++17 main.cpp -o snn_host \
+    -I$XILINX_XRT/include -L$XILINX_XRT/lib -lxrt_coreutil -pthread
 
-echo "DON'T FORGET TO COMPILE IN THE KR260"
 echo "=== BUILD COMPLETE ==="
