@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
+export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libudev.so.1
 
 # Define target platform (adjust 202320_1 to match your platform version if different)
 PLATFORM="/home/vitis-ai-user/workspace/kria-vitis-platforms/k26/platforms/xsct/k26_base_starter_kit/k26_base_starter_kit/export/k26_base_starter_kit/k26_base_starter_kit.xpfm"
@@ -8,7 +9,10 @@ echo "=== 1. Compiling HLS C++ Kernel to .xo ==="
 v++ -c -t hw --platform $PLATFORM -k snn_kernel snn_kernel.cpp -o snn_kernel.xo
 
 echo "=== 2. Linking .xo to generate .xclbin ==="
-v++ -l -t hw --platform $PLATFORM snn_kernel.xo -o snn_kernel.xclbin
+v++ -l -t hw --platform $PLATFORM snn_kernel.xo -o snn_kernel.xclbin \
+    --vivado.param general.maxThreads=10 \
+    --vivado.synth.jobs 4 \
+    --vivado.impl.jobs 4 \
 
 echo "=== 3. Extracting Raw Bitstream from .xclbin ==="
 xclbinutil --input snn_kernel.xclbin --dump-section BITSTREAM:RAW:snn_app.bit
