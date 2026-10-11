@@ -9,6 +9,8 @@
             zyxclmm_drm {
                 compatible = "xlnx,zocl";
                 status = "okay";
+                interrupt-parent = <&gic>;
+                interrupts = <0 89 4>;
             };
         };
     };

@@ -15,7 +15,7 @@ v++ -l -t hw --platform $PLATFORM snn_kernel.xo -o snn_kernel.xclbin \
     --vivado.impl.jobs 4 \
 
 echo "=== 3. Extracting Raw Bitstream from .xclbin ==="
-xclbinutil --input snn_kernel.xclbin --dump-section BITSTREAM:RAW:snn_app.bit
+xclbinutil --input snn_kernel.xclbin --dump-section BITSTREAM:RAW:snn_app.bit --force
 
 echo "=== 4. Converting .bit to .bit.bin using Bootgen ==="
 echo "all: { [destination_device = pl] snn_app.bit }" > boot.bif
@@ -24,8 +24,9 @@ bootgen -image boot.bif -arch zynqmp -process_bitstream bin -w on
 echo "=== 5. Compiling Device Tree Overlay (.dtbo) ==="
 dtc -@ -I dts -O dtb -o snn_app.dtbo snn_app.dts
 
-echo "=== 6. Cross-Compiling Host Executable for AArch64 ==="
-aarch64-linux-gnu-g++ -O3 -std=c++17 main.cpp -o snn_host \
-    -I$XILINX_XRT/include -L$XILINX_XRT/lib -lxrt_coreutil -pthread
+# echo "=== 6. Cross-Compiling Host Executable for AArch64 ==="
+# aarch64-linux-gnu-g++ -O3 -std=c++17 main.cpp -o snn_host \
+#     -I$XILINX_XRT/include -L$XILINX_XRT/lib -lxrt_coreutil -pthread
 
+echo "COMPILE G++ IN THE KRIA KR260!"
 echo "=== BUILD COMPLETE ==="
